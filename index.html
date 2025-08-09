@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Governor Nelson State Park Map</title>
+
+  <!-- ArcGIS JS API -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/dark/main.css" />
+  <script src="https://js.arcgis.com/4.28/"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <!-- Splash Screen -->
+  <div id="splashScreen" class="splash-screen">
+    <div class="splash-content">
+      <h1>Welcome to Governor Nelson State Park</h1>
+      <h2>Interactive Web Map</h2>
+      <div class="features-list">
+        <p>• Follow along various trails.</p>
+        <p>• Find picnic areas, effigy mounds, restroom locations, and much more.</p>
+        <p>• Share your own discoveries with other visitors.</p>
+        <p>• Mobile-friendly for on-the-go exploration.</p>
+      </div>
+      <div class="help-text">
+        <p>💡 Click the "Layers" button at the top of the screen to toggle different park features on and off.</p>
+      </div>
+      <button id="startExploring" class="start-btn">Start Exploring</button>
+    </div>
+  </div>
+
+  <div id="mapView" style="height: 100vh; width: 100vw;"></div>
+
+  <!-- Hamburger Menu -->
+  <div id="hamburgerMenu" class="hamburger-menu">
+    <button id="menuToggle" class="menu-toggle">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    <div id="menuContent" class="menu-content">
+      <h3>Menu</h3>
+      <div class="menu-items">
+        <a href="#" id="suggestLocation" class="menu-item">
+          <span class="menu-icon">📍</span>
+          Suggest a Scenic Location
+        </a>
+        <a href="https://dnr.wisconsin.gov/topic/parks/govnelson" target="_blank" class="menu-item">
+          <span class="menu-icon">ℹ️</span>
+          About the Park
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layer Filter Panel -->
+  <div id="layerPanel" class="layer-panel">
+    <button id="togglePanel" class="panel-toggle">Layers</button>
+    <div id="panelContent" class="panel-content">
+      <h3>Park Features</h3>
+      <div class="toggle-group">
+        <label class="toggle-item">
+          <input type="checkbox" id="toggle-trails">
+          <span class="toggle-label">Trails</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggle-nature">
+          <span class="toggle-label">Nature Sites</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggle-picnic">
+          <span class="toggle-label">Picnic Areas</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggle-effigy">
+          <span class="toggle-label">Effigy Mounds</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggle-restrooms">
+          <span class="toggle-label">Restrooms</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggle-parking">
+          <span class="toggle-label">Parking</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggle-shelters">
+          <span class="toggle-label">Reservable Shelters</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map JS -->
+  <script src="static/js/map.js"></script>
+</body>
+</html>

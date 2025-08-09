@@ -1,0 +1,82 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0" version="27.1.4">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="602" dy="646" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-0" value="Web Server (Flask)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="291" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-1" value="User (Browser)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="90" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-2" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="210" y="149.5" as="sourcePoint" />
+            <mxPoint x="290" y="149.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-3" value="Data Storage (GeoJSON Files &amp;amp; PostGIS)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="294" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-4" value="Frontend Controls&lt;br&gt;(Sliders, Buttons)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="90" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-5" value="&lt;div&gt;Spatial Analysis Engine&lt;/div&gt;&lt;div&gt;(GeoPandas/SciPy)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="294" y="252" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-6" value="&lt;div&gt;Interactive Web Map&lt;/div&gt;&lt;div&gt;(Leaflet)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="90" y="252" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-7" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="211" y="289.5" as="sourcePoint" />
+            <mxPoint x="291" y="289.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-8" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="211" y="429.5" as="sourcePoint" />
+            <mxPoint x="291" y="429.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-9" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="149.5" y="250" as="sourcePoint" />
+            <mxPoint x="149.5" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-10" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="149.5" y="390" as="sourcePoint" />
+            <mxPoint x="149.5" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-11" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="353.5" y="250" as="sourcePoint" />
+            <mxPoint x="353.5" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-12" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="353.5" y="390" as="sourcePoint" />
+            <mxPoint x="353.5" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-13" value="&lt;div&gt;Requests &amp;amp; Data&lt;/div&gt;&lt;div&gt;(HTML/CSS, JS)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="160" y="197" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-14" value="&lt;div&gt;API Calls&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="360" y="202" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-15" value="&lt;div&gt;GeoJSON data&lt;/div&gt;&lt;div&gt;for the map&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="160" y="343" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="MK1a9TyDiw3Mqo0tAtf9-16" value="&lt;div&gt;Data Access&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="360" y="343" width="90" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
