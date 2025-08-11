@@ -211,17 +211,13 @@ view.padding = {
     visible: false  // Hidden by default
   });
 
-  // Add Elevation Layer (DEM) - Try different approach with elevation service
-  // Since KMZ from DEM conversion isn't working, let's try a web-based elevation service
-  // or create a simple imagery layer if we can serve the DEM as a raster service
-  
-  // For now, let's try using USGS elevation service as a fallback
+  // Add Elevation Layer (DEM) - GeoTIFF format from local file
   const elevationLayer = new ImageryLayer({
-    url: "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer",
+    url: "https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.tif",
     title: "Elevation (DEM)",
     visible: false,  // Hidden by default
-    opacity: 0.35,   // 35% transparency
-    // Add rendering rule for better visualization
+    opacity: 0.35,   // 35% transparency as indicated in filename
+    // Add rendering rule for hillshade visualization
     renderingRule: {
       "rasterFunction": "Hillshade",
       "rasterFunctionArguments": {
@@ -234,10 +230,10 @@ view.padding = {
 
   // Add load event listener for debugging
   elevationLayer.when(function() {
-    console.log("Elevation layer loaded successfully");
+    console.log("Elevation layer (GeoTIFF) loaded successfully");
   }).catch(function(error) {
     console.error("Elevation layer load error:", error);
-    console.log("Trying fallback elevation service");
+    console.log("GeoTIFF elevation layer failed to load - checking file accessibility and format");
   });
 
   // Placeholder layers for future implementation
