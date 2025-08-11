@@ -211,29 +211,43 @@ view.padding = {
     visible: false  // Hidden by default
   });
 
-  // Add Elevation Layer (DEM) - GeoTIFF format from local file
+  // Add Elevation Layer (DEM) - Simplified GeoTIFF approach
+  // ImageryLayer expects a service URL, not a static file
+  // Let's try without any raster functions first
   const elevationLayer = new ImageryLayer({
     url: "https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.tif",
     title: "Elevation (DEM)",
-    visible: false,  // Hidden by default
-    opacity: 0.35,   // 35% transparency as indicated in filename
-    // Add rendering rule for hillshade visualization
-    renderingRule: {
-      "rasterFunction": "Hillshade",
-      "rasterFunctionArguments": {
-        "Azimuth": 315,
-        "Altitude": 45,
-        "ZFactor": 1
-      }
-    }
+    visible: false,
+    opacity: 0.35
   });
 
-  // Add load event listener for debugging
+  // Add comprehensive error logging
   elevationLayer.when(function() {
-    console.log("Elevation layer (GeoTIFF) loaded successfully");
+    console.log("Elevation layer loaded successfully");
+    console.log("Layer type:", elevationLayer.type);
+    console.log("Layer loaded:", elevationLayer.loaded);
   }).catch(function(error) {
-    console.error("Elevation layer load error:", error);
-    console.log("GeoTIFF elevation layer failed to load - checking file accessibility and format");
+    console.error("Elevation layer failed to load:", error);
+    console.log("Error details:", {
+      name: error.name,
+      message: error.message,
+      details: error.details
+    });
+    
+    // Test direct file access
+    fetch("https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.tif", {
+      method: 'HEAD'
+    })
+      .then(response => {
+        console.log("Direct TIF file test:");
+        console.log("- Status:", response.status);
+        console.log("- Content-Type:", response.headers.get('content-type'));
+        console.log("- Content-Length:", response.headers.get('content-length'));
+        console.log("- CORS headers:", response.headers.get('access-control-allow-origin'));
+      })
+      .catch(fetchError => {
+        console.error("Direct TIF file test failed:", fetchError);
+      });
   });
 
   // Placeholder layers for future implementation
