@@ -205,6 +205,12 @@ view.padding = {
       setTimeout(function() {
         splashScreen.remove();
         document.body.classList.remove('splash-active');
+        document.body.classList.add('map-active');
+        // Refresh map size after transition
+        if (view) {
+          view.container.style.height = '100vh';
+          setTimeout(() => view.resize(), 100);
+        }
       }, 500);
     }
   }
@@ -270,4 +276,7 @@ view.padding = {
   }).catch(function(error) {
     console.warn("Map view loading error:", error);
   });
+  
+  // Initialize splash screen state
+  document.body.classList.add('splash-active');
 });

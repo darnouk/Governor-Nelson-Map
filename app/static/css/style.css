@@ -37,11 +37,12 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: var(--app-height);
-  height: 100dvh; /* Dynamic viewport height for supporting browsers */
-  overflow: hidden;
+  height: 100%;
+  min-height: var(--app-height);
+  min-height: 100dvh; /* Dynamic viewport height for supporting browsers */
   touch-action: manipulation; /* Improve touch performance */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  /* Allow scrolling - removed overflow: hidden */
 }
 
 /* Desktop testing simulation - add class to body to test safe areas */
@@ -59,8 +60,7 @@ html, body {
   left: 0;
   width: 100%;
   width: 100vw;
-  height: var(--app-height);
-  height: 100dvh; /* Dynamic viewport height */
+  height: 100vh; /* Use regular vh for map to avoid jumping */
   z-index: 1;
   
   /* Handle safe areas by reducing available space instead of padding */
@@ -68,7 +68,7 @@ html, body {
   top: var(--safe-area-inset-top);
   left: var(--safe-area-inset-left);
   width: calc(100vw - var(--safe-area-inset-left) - var(--safe-area-inset-right));
-  height: calc(var(--app-height) - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+  height: calc(100vh - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
 }
 
 /* Splash Screen Styles with viewport and safe area support */
@@ -78,20 +78,27 @@ html, body {
   left: 0;
   width: 100%;
   width: 100vw;
-  height: var(--app-height);
-  height: 100dvh; /* Dynamic viewport height */
+  min-height: var(--app-height);
+  min-height: 100dvh; /* Dynamic viewport height */
   background: linear-gradient(135deg, #2c5530, #1a3d1f, #0f2d14);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 9999;
   transition: opacity 0.5s ease-out;
   
+  /* Allow scrolling when content overflows */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  
   /* Handle safe areas with padding to keep content in safe zone */
-  padding-top: var(--safe-area-inset-top);
-  padding-right: var(--safe-area-inset-right);
-  padding-bottom: var(--safe-area-inset-bottom);
-  padding-left: var(--safe-area-inset-left);
+  padding-top: calc(20px + var(--safe-area-inset-top));
+  padding-right: calc(20px + var(--safe-area-inset-right));
+  padding-bottom: calc(20px + var(--safe-area-inset-bottom));
+  padding-left: calc(20px + var(--safe-area-inset-left));
+  
+  /* Flexbox for centering with scroll capability */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .splash-content {
@@ -99,8 +106,15 @@ html, body {
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   max-width: 600px;
-  padding: 2rem;
+  width: 100%;
+  padding: 1rem;
   position: relative;
+  /* Ensure content fits within viewport and can scroll if needed */
+  min-height: fit-content;
+  margin: auto;
+  /* Add some breathing room */
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .close-btn {
@@ -125,13 +139,19 @@ html, body {
   background: rgba(255, 255, 255, 0.2);
   border: 2px solid white;
   color: white;
-  padding: 12px 30px;
-  font-size: 1.1rem;
+  padding: 16px 40px;
+  font-size: 1.2rem;
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
   animation: fadeInUp 1s ease-out 0.6s both;
+  /* Ensure button is always tappable */
+  min-height: 48px;
+  touch-action: manipulation;
+  /* Make button more prominent */
+  font-weight: 600;
 }
 
 .start-btn:hover {
@@ -234,21 +254,46 @@ html, body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .splash-content {
-    padding: 1.5rem;
-    max-width: 90%;
+    padding: 1rem;
+    max-width: 95%;
+    /* Ensure content fits in small viewports */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
   
   .splash-content h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
   }
   
   .splash-content h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .features-list {
+    margin-bottom: 1.5rem;
   }
   
   .features-list p {
-    font-size: 1rem;
-    margin: 0.6rem 0;
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+  }
+  
+  .help-text {
+    margin: 1rem 0;
+    padding: 0.8rem;
+  }
+  
+  .help-text p {
+    font-size: 0.85rem;
+  }
+  
+  .start-btn {
+    padding: 14px 30px;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
   }
   
   .loader {
@@ -258,22 +303,63 @@ html, body {
 }
 
 @media (max-width: 480px) {
+  .splash-screen {
+    /* Add extra padding for very small screens */
+    padding-top: calc(10px + var(--safe-area-inset-top));
+    padding-bottom: calc(10px + var(--safe-area-inset-bottom));
+  }
+  
+  .splash-content {
+    padding: 0.8rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
   .splash-content h1 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
   }
   
   .splash-content h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .features-list {
+    margin-bottom: 1rem;
   }
   
   .features-list p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    margin: 0.4rem 0;
+  }
+  
+  .help-text {
+    margin: 0.8rem 0;
+    padding: 0.6rem;
+  }
+  
+  .help-text p {
+    font-size: 0.8rem;
+  }
+  
+  .start-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
   }
 }
 
 /* Map View Hidden During Splash */
 .splash-active #mapView {
   visibility: hidden;
+}
+
+/* Prevent body scroll when map is active (after splash) */
+body.map-active {
+  overflow: hidden;
+  height: 100vh;
 }
 
 /* Hamburger Menu Styles with Safe Area Support */
