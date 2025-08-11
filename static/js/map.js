@@ -154,11 +154,11 @@ require([
   "esri/Map",
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
-  "esri/layers/KMLLayer",
+  "esri/layers/ImageryLayer",
   "esri/layers/MediaLayer",
   "esri/widgets/Home",
   "esri/widgets/Track"
-], function(esriConfig, Map, MapView, FeatureLayer, KMLLayer, MediaLayer, Home, Track) {
+], function(esriConfig, Map, MapView, FeatureLayer, ImageryLayer, MediaLayer, Home, Track) {
   
   esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEDq81m6iLS4nyHtFHczj5TBqBx8Cg1drp7txdNmq8KNcgADNXtClYAyolWAWKETPy2ha0mHQ6nbWbf9JbmcHyJ8jqc1m2fdnvqmR_A-K00HUdmE8WqyGDzMzgyPnJ-y08FMI8E_30r1zNQeqI0JTqlAaMCqbPJyzoB_Klx1-f3txjHTucNYnuNcd7MINMB0tkiUm4rncl0pI2eDyrhZq55YNY986lm2BMLPbfFHn_V8OVlySdJdwc3vp7ei1NcrqA..AT1_Iy6Coz2P";
 
@@ -211,14 +211,25 @@ view.padding = {
     visible: false  // Hidden by default
   });
 
-  // Add Elevation Layer (DEM) - KMZ format with enhanced configuration
-  const elevationLayer = new KMLLayer({
-    url: "https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.kmz",
+  // Add Elevation Layer (DEM) - Try different approach with elevation service
+  // Since KMZ from DEM conversion isn't working, let's try a web-based elevation service
+  // or create a simple imagery layer if we can serve the DEM as a raster service
+  
+  // For now, let's try using USGS elevation service as a fallback
+  const elevationLayer = new ImageryLayer({
+    url: "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer",
     title: "Elevation (DEM)",
     visible: false,  // Hidden by default
-    opacity: 0.35,   // 35% transparency as indicated in filename
-    // Enhanced KML loading options
-    refreshInterval: 0
+    opacity: 0.35,   // 35% transparency
+    // Add rendering rule for better visualization
+    renderingRule: {
+      "rasterFunction": "Hillshade",
+      "rasterFunctionArguments": {
+        "Azimuth": 315,
+        "Altitude": 45,
+        "ZFactor": 1
+      }
+    }
   });
 
   // Add load event listener for debugging
@@ -226,7 +237,7 @@ view.padding = {
     console.log("Elevation layer loaded successfully");
   }).catch(function(error) {
     console.error("Elevation layer load error:", error);
-    console.log("DEM layer failed to load - this may be due to KMZ format compatibility issues");
+    console.log("Trying fallback elevation service");
   });
 
   // Placeholder layers for future implementation
