@@ -1,16 +1,97 @@
-/* Splash Screen Styles */
+/* CSS Custom Properties for Dynamic Viewport and Safe Areas */
+:root {
+  /* Fallback values for older browsers */
+  --app-height: 100vh;
+  --vh: 1vh;
+  --safe-area-inset-top: 0;
+  --safe-area-inset-right: 0;
+  --safe-area-inset-bottom: 0;
+  --safe-area-inset-left: 0;
+  
+  /* Use safe-area-inset values when available */
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+}
+
+/* Support for dynamic viewport units */
+@supports (height: 100dvh) {
+  :root {
+    --app-height: 100dvh;
+  }
+}
+
+/* Support for vh units calculated via JavaScript (fallback) */
+@supports not (height: 100dvh) {
+  :root {
+    --app-height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+/* Base styles with viewport handling */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: var(--app-height);
+  height: 100dvh; /* Dynamic viewport height for supporting browsers */
+  overflow: hidden;
+  touch-action: manipulation; /* Improve touch performance */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Desktop testing simulation - add class to body to test safe areas */
+.simulate-safe-areas {
+  --safe-area-inset-top: 44px;
+  --safe-area-inset-bottom: 34px;
+  --safe-area-inset-left: 0;
+  --safe-area-inset-right: 0;
+}
+
+/* Map Container with proper viewport and safe area handling */
+.map-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  width: 100vw;
+  height: var(--app-height);
+  height: 100dvh; /* Dynamic viewport height */
+  z-index: 1;
+  
+  /* Handle safe areas by reducing available space instead of padding */
+  /* This ensures the map fills the safe area without being hidden behind notches */
+  top: var(--safe-area-inset-top);
+  left: var(--safe-area-inset-left);
+  width: calc(100vw - var(--safe-area-inset-left) - var(--safe-area-inset-right));
+  height: calc(var(--app-height) - var(--safe-area-inset-top) - var(--safe-area-inset-bottom));
+}
+
+/* Splash Screen Styles with viewport and safe area support */
 .splash-screen {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: var(--app-height);
+  height: 100dvh; /* Dynamic viewport height */
   background: linear-gradient(135deg, #2c5530, #1a3d1f, #0f2d14);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
   transition: opacity 0.5s ease-out;
+  
+  /* Handle safe areas with padding to keep content in safe zone */
+  padding-top: var(--safe-area-inset-top);
+  padding-right: var(--safe-area-inset-right);
+  padding-bottom: var(--safe-area-inset-bottom);
+  padding-left: var(--safe-area-inset-left);
 }
 
 .splash-content {
@@ -195,11 +276,11 @@
   visibility: hidden;
 }
 
-/* Hamburger Menu Styles */
+/* Hamburger Menu Styles with Safe Area Support */
 .hamburger-menu {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: calc(10px + var(--safe-area-inset-top));
+  left: calc(10px + var(--safe-area-inset-left));
   z-index: 1000;
 }
 
@@ -308,11 +389,11 @@
   }
 }
 
-/* Layer Panel Styles */
+/* Layer Panel Styles with Safe Area Support */
 .layer-panel {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: calc(10px + var(--safe-area-inset-bottom));
+  right: calc(10px + var(--safe-area-inset-right));
   background: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -383,16 +464,21 @@
   color: #2c5530;
 }
 
-/* Mobile responsive */
+/* Mobile responsive with safe area support */
 @media (max-width: 768px) {
   .layer-panel {
-    bottom: 10px;
-    right: 10px;
-    left: 10px;
+    bottom: calc(10px + var(--safe-area-inset-bottom));
+    right: calc(10px + var(--safe-area-inset-right));
+    left: calc(10px + var(--safe-area-inset-left));
     min-width: auto;
   }
   
   .panel-content {
     padding: 12px;
+  }
+  
+  .hamburger-menu {
+    top: calc(10px + var(--safe-area-inset-top));
+    left: calc(10px + var(--safe-area-inset-left));
   }
 }

@@ -1,3 +1,70 @@
+// Mobile viewport and safe area handling
+(function() {
+  'use strict';
+  
+  // Function to update CSS custom property for app height
+  function updateAppHeight() {
+    // Get the viewport height and update the CSS custom property
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    
+    // Update app height custom property
+    document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+  }
+  
+  // Function to simulate safe areas for desktop testing
+  window.simulateSafeAreas = function(enabled = true) {
+    const body = document.body;
+    if (enabled) {
+      body.classList.add('simulate-safe-areas');
+      console.log('Safe area simulation enabled - you can see how the app looks on notched devices');
+    } else {
+      body.classList.remove('simulate-safe-areas');
+      console.log('Safe area simulation disabled');
+    }
+  };
+  
+  // Function to detect if device has safe areas
+  function detectSafeAreas() {
+    const supportsEnv = CSS.supports('padding-top: env(safe-area-inset-top)');
+    const hasNotch = window.navigator.userAgent.includes('iPhone') && 
+                     window.screen.height >= 812; // iPhone X and newer
+    
+    return supportsEnv || hasNotch;
+  }
+  
+  // Initialize viewport handling
+  function initViewport() {
+    updateAppHeight();
+    
+    // Add visual viewport API support if available (newer browsers)
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', updateAppHeight);
+    }
+    
+    // Fallback for older browsers
+    window.addEventListener('resize', updateAppHeight);
+    window.addEventListener('orientationchange', function() {
+      // Small delay to ensure orientation change is complete
+      setTimeout(updateAppHeight, 100);
+    });
+    
+    // Log safe area support
+    if (detectSafeAreas()) {
+      console.log('Safe area support detected');
+    } else {
+      console.log('No safe area support - use simulateSafeAreas() to test');
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initViewport);
+  } else {
+    initViewport();
+  }
+})();
+
 require([
   "esri/config",
   "esri/Map",
