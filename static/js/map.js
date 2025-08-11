@@ -24,6 +24,80 @@
     }
   };
   
+  // Function to test auto-scaling manually
+  window.testAutoScale = function(scale = 0.75) {
+    const splashContent = document.querySelector('.splash-content');
+    if (!splashContent) {
+      console.log('Splash screen not found');
+      return;
+    }
+    
+    splashContent.style.zoom = scale;
+    splashContent.style.transform = `scale(${scale})`;
+    const marginAdjust = (1 - scale) * 50;
+    splashContent.style.marginTop = `-${marginAdjust}vh`;
+    splashContent.style.marginBottom = `-${marginAdjust}vh`;
+    
+    console.log(`Applied ${scale * 100}% scaling to splash content`);
+  };
+  
+  // Function to reset scaling
+  window.resetScale = function() {
+    const splashContent = document.querySelector('.splash-content');
+    if (splashContent) {
+      splashContent.style.zoom = '';
+      splashContent.style.transform = '';
+      splashContent.style.marginTop = '';
+      splashContent.style.marginBottom = '';
+      console.log('Reset splash content scaling');
+    }
+  };
+  
+  // Function to auto-scale splash content for optimal fit (replicates 75% zoom effect)
+  function autoScaleSplashContent() {
+    const splashContent = document.querySelector('.splash-content');
+    if (!splashContent) return;
+    
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+    
+    // Calculate optimal scale based on viewport dimensions
+    let scale = 1;
+    
+    // Mobile portrait optimization
+    if (viewportWidth <= 414 && viewportHeight >= 700) {
+      scale = 0.75; // Replicate your 75% zoom finding
+    }
+    // Small mobile screens
+    else if (viewportWidth <= 375 && viewportHeight <= 700) {
+      scale = 0.7;
+    }
+    // Mobile landscape
+    else if (viewportHeight <= 500 && viewportWidth > viewportHeight) {
+      scale = 0.65;
+    }
+    // Tablet portrait
+    else if (viewportWidth <= 768 && viewportHeight <= 1024) {
+      scale = 0.8;
+    }
+    
+    // Apply scaling if needed
+    if (scale < 1) {
+      splashContent.style.transform = `scale(${scale})`;
+      // Adjust margins to account for scaling
+      const marginAdjust = (1 - scale) * 50; // Percentage of viewport
+      splashContent.style.marginTop = `-${marginAdjust}vh`;
+      splashContent.style.marginBottom = `-${marginAdjust}vh`;
+      
+      console.log(`Auto-scaled splash content to ${scale * 100}% for optimal fit`);
+    } else {
+      // Reset scaling for larger screens
+      splashContent.style.transform = '';
+      splashContent.style.marginTop = '';
+      splashContent.style.marginBottom = '';
+    }
+  }
+  
   // Function to detect if device has safe areas
   function detectSafeAreas() {
     const supportsEnv = CSS.supports('padding-top: env(safe-area-inset-top)');
@@ -36,17 +110,27 @@
   // Initialize viewport handling
   function initViewport() {
     updateAppHeight();
+    autoScaleSplashContent(); // Apply optimal scaling
     
     // Add visual viewport API support if available (newer browsers)
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', updateAppHeight);
+      window.visualViewport.addEventListener('resize', function() {
+        updateAppHeight();
+        autoScaleSplashContent();
+      });
     }
     
     // Fallback for older browsers
-    window.addEventListener('resize', updateAppHeight);
+    window.addEventListener('resize', function() {
+      updateAppHeight();
+      autoScaleSplashContent();
+    });
     window.addEventListener('orientationchange', function() {
       // Small delay to ensure orientation change is complete
-      setTimeout(updateAppHeight, 100);
+      setTimeout(function() {
+        updateAppHeight();
+        autoScaleSplashContent();
+      }, 100);
     });
     
     // Log safe area support

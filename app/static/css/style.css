@@ -115,6 +115,54 @@ html, body {
   /* Add some breathing room */
   padding-top: 2rem;
   padding-bottom: 2rem;
+  
+  /* Apply 75% scaling on mobile to replicate manual zoom effect */
+  transform-origin: center center;
+}
+
+/* Mobile scaling - replicate the 75% zoom effect automatically */
+@media screen and (max-width: 768px) and (max-height: 800px) {
+  .splash-content {
+    /* Use zoom property for WebKit browsers (Safari) */
+    zoom: 0.75;
+    /* Fallback to transform for other browsers */
+    transform: scale(0.75);
+    /* Adjust margin to account for scaling */
+    margin-top: -10vh;
+    margin-bottom: -10vh;
+  }
+}
+
+/* Extra scaling for very small screens like iPhone SE */
+@media screen and (max-width: 480px) and (max-height: 700px) {
+  .splash-content {
+    zoom: 0.7;
+    transform: scale(0.7);
+    margin-top: -15vh;
+    margin-bottom: -15vh;
+  }
+}
+
+/* Landscape mobile scaling */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .splash-content {
+    zoom: 0.65;
+    transform: scale(0.65);
+    margin-top: -20vh;
+    margin-bottom: -10vh;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+/* iPhone specific scaling (detected by screen dimensions) */
+@media screen and (max-width: 414px) and (max-height: 896px) {
+  .splash-content {
+    zoom: 0.72;
+    transform: scale(0.72);
+    margin-top: -12vh;
+    margin-bottom: -12vh;
+  }
 }
 
 .close-btn {
