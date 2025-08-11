@@ -154,11 +154,10 @@ require([
   "esri/Map",
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
-  "esri/layers/ImageryLayer",
   "esri/layers/MediaLayer",
   "esri/widgets/Home",
   "esri/widgets/Track"
-], function(esriConfig, Map, MapView, FeatureLayer, ImageryLayer, MediaLayer, Home, Track) {
+], function(esriConfig, Map, MapView, FeatureLayer, MediaLayer, Home, Track) {
   
   esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEDq81m6iLS4nyHtFHczj5TBqBx8Cg1drp7txdNmq8KNcgADNXtClYAyolWAWKETPy2ha0mHQ6nbWbf9JbmcHyJ8jqc1m2fdnvqmR_A-K00HUdmE8WqyGDzMzgyPnJ-y08FMI8E_30r1zNQeqI0JTqlAaMCqbPJyzoB_Klx1-f3txjHTucNYnuNcd7MINMB0tkiUm4rncl0pI2eDyrhZq55YNY986lm2BMLPbfFHn_V8OVlySdJdwc3vp7ei1NcrqA..AT1_Iy6Coz2P";
 
@@ -211,43 +210,46 @@ view.padding = {
     visible: false  // Hidden by default
   });
 
-  // Add Elevation Layer (DEM) - Simplified GeoTIFF approach
-  // ImageryLayer expects a service URL, not a static file
-  // Let's try without any raster functions first
-  const elevationLayer = new ImageryLayer({
-    url: "https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.tif",
+  // Add Elevation Layer (DEM) - Use MediaLayer for static GeoTIFF
+  // ImageryLayer expects JSON service endpoints, not static files
+  // MediaLayer can handle static raster images with proper georeferencing
+  
+  const elevationLayer = new MediaLayer({
+    source: [
+      {
+        type: "image-element",
+        image: "https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.tif",
+        georeference: {
+          // Based on world file: 1.6437168, 0, 0, -1.6437168, 805627.480532, 509477.117285
+          // This appears to be in UTM coordinates, need to convert or specify extent differently
+          extent: {
+            xmin: -89.35,
+            ymin: 43.20,
+            xmax: -89.20,
+            ymax: 43.35,
+            spatialReference: { wkid: 4326 } // WGS84 for approximate extent
+          }
+        }
+      }
+    ],
     title: "Elevation (DEM)",
     visible: false,
-    opacity: 0.35
+    opacity: 0.35,
+    blendMode: "multiply" // This can help with terrain visualization
   });
 
   // Add comprehensive error logging
   elevationLayer.when(function() {
-    console.log("Elevation layer loaded successfully");
+    console.log("Elevation layer (MediaLayer) loaded successfully");
     console.log("Layer type:", elevationLayer.type);
-    console.log("Layer loaded:", elevationLayer.loaded);
+    console.log("Layer extent:", elevationLayer.fullExtent);
   }).catch(function(error) {
-    console.error("Elevation layer failed to load:", error);
+    console.error("MediaLayer elevation layer failed to load:", error);
     console.log("Error details:", {
       name: error.name,
       message: error.message,
       details: error.details
     });
-    
-    // Test direct file access
-    fetch("https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.tif", {
-      method: 'HEAD'
-    })
-      .then(response => {
-        console.log("Direct TIF file test:");
-        console.log("- Status:", response.status);
-        console.log("- Content-Type:", response.headers.get('content-type'));
-        console.log("- Content-Length:", response.headers.get('content-length'));
-        console.log("- CORS headers:", response.headers.get('access-control-allow-origin'));
-      })
-      .catch(fetchError => {
-        console.error("Direct TIF file test failed:", fetchError);
-      });
   });
 
   // Placeholder layers for future implementation
