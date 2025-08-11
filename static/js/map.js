@@ -218,14 +218,7 @@ view.padding = {
     visible: false,  // Hidden by default
     opacity: 0.35,   // 35% transparency as indicated in filename
     // Enhanced KML loading options
-    sublayers: [],
-    refreshInterval: 0,
-    // Try to force KML parsing
-    parseFolders: true,
-    // Add error handling
-    loadError: function(error) {
-      console.error("KML Layer failed to load:", error);
-    }
+    refreshInterval: 0
   });
 
   // Add load event listener for debugging
@@ -233,9 +226,7 @@ view.padding = {
     console.log("Elevation layer loaded successfully");
   }).catch(function(error) {
     console.error("Elevation layer load error:", error);
-    
-    // Fallback: Try alternative loading method
-    console.log("Trying alternative elevation layer loading...");
+    console.log("DEM layer failed to load - this may be due to KMZ format compatibility issues");
   });
 
   // Placeholder layers for future implementation
