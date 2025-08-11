@@ -212,7 +212,7 @@ view.padding = {
 
   // Add Elevation Layer (DEM) - KMZ format
   const elevationLayer = new KMLLayer({
-    url: "https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.kmz",
+    url: "https://darnouk.github.io/Governor-Nelson-Map/app/static/elevation/dem_35_transparency.kmz",
     title: "Elevation (DEM)",
     visible: false,  // Hidden by default
     opacity: 0.35    // 35% transparency as indicated in filename
