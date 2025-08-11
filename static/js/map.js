@@ -155,9 +155,10 @@ require([
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
   "esri/layers/KMLLayer",
+  "esri/layers/MediaLayer",
   "esri/widgets/Home",
   "esri/widgets/Track"
-], function(esriConfig, Map, MapView, FeatureLayer, KMLLayer, Home, Track) {
+], function(esriConfig, Map, MapView, FeatureLayer, KMLLayer, MediaLayer, Home, Track) {
   
   esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEDq81m6iLS4nyHtFHczj5TBqBx8Cg1drp7txdNmq8KNcgADNXtClYAyolWAWKETPy2ha0mHQ6nbWbf9JbmcHyJ8jqc1m2fdnvqmR_A-K00HUdmE8WqyGDzMzgyPnJ-y08FMI8E_30r1zNQeqI0JTqlAaMCqbPJyzoB_Klx1-f3txjHTucNYnuNcd7MINMB0tkiUm4rncl0pI2eDyrhZq55YNY986lm2BMLPbfFHn_V8OVlySdJdwc3vp7ei1NcrqA..AT1_Iy6Coz2P";
 
@@ -210,12 +211,31 @@ view.padding = {
     visible: false  // Hidden by default
   });
 
-  // Add Elevation Layer (DEM) - KMZ format
+  // Add Elevation Layer (DEM) - KMZ format with enhanced configuration
   const elevationLayer = new KMLLayer({
     url: "https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.kmz",
     title: "Elevation (DEM)",
     visible: false,  // Hidden by default
-    opacity: 0.35    // 35% transparency as indicated in filename
+    opacity: 0.35,   // 35% transparency as indicated in filename
+    // Enhanced KML loading options
+    sublayers: [],
+    refreshInterval: 0,
+    // Try to force KML parsing
+    parseFolders: true,
+    // Add error handling
+    loadError: function(error) {
+      console.error("KML Layer failed to load:", error);
+    }
+  });
+
+  // Add load event listener for debugging
+  elevationLayer.when(function() {
+    console.log("Elevation layer loaded successfully");
+  }).catch(function(error) {
+    console.error("Elevation layer load error:", error);
+    
+    // Fallback: Try alternative loading method
+    console.log("Trying alternative elevation layer loading...");
   });
 
   // Placeholder layers for future implementation
