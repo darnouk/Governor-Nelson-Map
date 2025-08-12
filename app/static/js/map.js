@@ -148,7 +148,7 @@ require([
     }
   });
 view.padding = {
-    top: 40, // Space for splash screen and controls
+    top: 120, // Much more space for controls to avoid hamburger menu
   };
   view.ui.add(new Home({ view }), "top-left");
   view.ui.add(new Track({ view }), "top-left");
@@ -178,39 +178,9 @@ view.padding = {
   // Move zoom controls down to avoid overlap with layer panel
   view.ui.move("zoom", "top-left");
   
-  // Adjust positioning after view loads
+  // Simple positioning - let the padding handle the spacing
   view.when(function() {
-    console.log("View loaded, attempting to reposition widgets...");
-    
-    // Wait a bit for widgets to fully load
-    setTimeout(function() {
-      // Add custom positioning - now only need to avoid hamburger menu
-      const zoomWidget = document.querySelector('.esri-zoom');
-      const homeWidget = document.querySelector('.esri-home');
-      const trackWidget = document.querySelector('.esri-track');
-      
-      console.log("Found widgets:", {
-        zoom: zoomWidget ? "YES" : "NO",
-        home: homeWidget ? "YES" : "NO", 
-        track: trackWidget ? "YES" : "NO"
-      });
-      
-      if (zoomWidget) {
-        zoomWidget.style.top = '140px';
-        zoomWidget.style.backgroundColor = 'red'; // Temporary visual test
-        console.log("Moved zoom widget to 140px");
-      }
-      if (homeWidget) {
-        homeWidget.style.top = '220px';
-        homeWidget.style.backgroundColor = 'blue'; // Temporary visual test
-        console.log("Moved home widget to 220px");
-      }
-      if (trackWidget) {
-        trackWidget.style.top = '260px';
-        trackWidget.style.backgroundColor = 'green'; // Temporary visual test
-        console.log("Moved track widget to 260px");
-      }
-    }, 2000); // Wait 2 seconds
+    console.log("Map loaded with padding-based positioning");
   });
 
   // Add Nature Sites Layer with professional tree SVG (hidden by default)
