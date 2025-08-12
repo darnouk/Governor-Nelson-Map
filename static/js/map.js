@@ -185,9 +185,9 @@ view.padding = {
     const homeWidget = document.querySelector('.esri-home');
     const trackWidget = document.querySelector('.esri-track');
     
-    if (zoomWidget) zoomWidget.style.top = '90px';    // A bit more space below hamburger menu
-    if (homeWidget) homeWidget.style.top = '170px';   // Below zoom buttons
-    if (trackWidget) trackWidget.style.top = '210px'; // Below home button
+    if (zoomWidget) zoomWidget.style.top = '110px';   // More space below hamburger menu
+    if (homeWidget) homeWidget.style.top = '190px';   // Below zoom buttons
+    if (trackWidget) trackWidget.style.top = '230px'; // Below home button
   });
 
   // Add Nature Sites Layer with professional tree SVG (hidden by default)
