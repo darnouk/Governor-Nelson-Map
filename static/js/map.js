@@ -154,10 +154,9 @@ require([
   "esri/Map",
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
-  "esri/layers/MediaLayer",
   "esri/widgets/Home",
   "esri/widgets/Track"
-], function(esriConfig, Map, MapView, FeatureLayer, MediaLayer, Home, Track) {
+], function(esriConfig, Map, MapView, FeatureLayer, Home, Track) {
   
   esriConfig.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurEDq81m6iLS4nyHtFHczj5TBqBx8Cg1drp7txdNmq8KNcgADNXtClYAyolWAWKETPy2ha0mHQ6nbWbf9JbmcHyJ8jqc1m2fdnvqmR_A-K00HUdmE8WqyGDzMzgyPnJ-y08FMI8E_30r1zNQeqI0JTqlAaMCqbPJyzoB_Klx1-f3txjHTucNYnuNcd7MINMB0tkiUm4rncl0pI2eDyrhZq55YNY986lm2BMLPbfFHn_V8OVlySdJdwc3vp7ei1NcrqA..AT1_Iy6Coz2P";
 
@@ -210,46 +209,15 @@ view.padding = {
     visible: false  // Hidden by default
   });
 
-  // Add Elevation Layer (DEM) - Use MediaLayer for static GeoTIFF
-  // ImageryLayer expects JSON service endpoints, not static files
-  // MediaLayer can handle static raster images with proper georeferencing
-  
-  const elevationLayer = new MediaLayer({
-    source: [
-      {
-        type: "image-element",
-        image: "https://darnouk.github.io/Governor-Nelson-Map/static/elevation/dem_35_transparency.tif",
-        georeference: {
-          // Based on world file: 1.6437168, 0, 0, -1.6437168, 805627.480532, 509477.117285
-          // This appears to be in UTM coordinates, need to convert or specify extent differently
-          extent: {
-            xmin: -89.35,
-            ymin: 43.20,
-            xmax: -89.20,
-            ymax: 43.35,
-            spatialReference: { wkid: 4326 } // WGS84 for approximate extent
-          }
-        }
-      }
-    ],
-    title: "Elevation (DEM)",
-    visible: false,
-    opacity: 0.35,
-    blendMode: "multiply" // This can help with terrain visualization
-  });
-
-  // Add comprehensive error logging
-  elevationLayer.when(function() {
-    console.log("Elevation layer (MediaLayer) loaded successfully");
-    console.log("Layer type:", elevationLayer.type);
-    console.log("Layer extent:", elevationLayer.fullExtent);
-  }).catch(function(error) {
-    console.error("MediaLayer elevation layer failed to load:", error);
-    console.log("Error details:", {
-      name: error.name,
-      message: error.message,
-      details: error.details
-    });
+  // Placeholder elevation layer for future implementation
+  const elevationLayer = new FeatureLayer({
+    url: "placeholder_elevation_url",  // Replace with actual URL when available
+    outFields: ["*"],
+    popupTemplate: {
+      title: "Elevation Data",
+      content: "DEM elevation data will be displayed here"
+    },
+    visible: false
   });
 
   // Placeholder layers for future implementation
@@ -284,7 +252,7 @@ view.padding = {
   });
 
   const restroomsLayer = new FeatureLayer({
-    url: "placeholder_restrooms_url",  // Replace with actual URL when available
+    url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/ArcGIS/rest/services/Restrooms/FeatureServer/0?token=3NKHt6i2urmWtqOuugvr9YhvtvGfkqCTb6HtscO0U3nOfzbuJxqcU-G8jI2MWfZGWX7oXCBso1LiN7LTrMpdGDNtsA7T_CT8NqlWuh-cr2nSL5wOhJxF3RqQZ2Ykc-X5RWxwSOILzP0xxzzI1jlPchkz404m0lDZ_gOVOZBzsVGU2oz0RGJSY_dFVoHu19dyEmpjlYAWwwGpn-SHlhQxggav63yOWdYyFuysTST680stjcKRCO6DFesbaSXP_7wgm7ige7uDeVcF_m4xaB9h3w",
     outFields: ["*"],
     popupTemplate: {
       title: "Restroom",
@@ -337,7 +305,12 @@ view.padding = {
         // Refresh map size after transition
         if (view) {
           view.container.style.height = '100vh';
-          setTimeout(() => view.resize(), 100);
+          // Use view.when() to ensure proper refresh
+          setTimeout(() => {
+            if (view.ready) {
+              view.goTo(view.center);  // Force refresh instead of resize()
+            }
+          }, 100);
         }
       }, 500);
     }
