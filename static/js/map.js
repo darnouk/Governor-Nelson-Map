@@ -180,14 +180,37 @@ view.padding = {
   
   // Adjust positioning after view loads
   view.when(function() {
-    // Add custom positioning - now only need to avoid hamburger menu
-    const zoomWidget = document.querySelector('.esri-zoom');
-    const homeWidget = document.querySelector('.esri-home');
-    const trackWidget = document.querySelector('.esri-track');
+    console.log("View loaded, attempting to reposition widgets...");
     
-    if (zoomWidget) zoomWidget.style.top = '140px';   // MUCH more space below hamburger menu
-    if (homeWidget) homeWidget.style.top = '220px';   // Below zoom buttons
-    if (trackWidget) trackWidget.style.top = '260px'; // Below home button
+    // Wait a bit for widgets to fully load
+    setTimeout(function() {
+      // Add custom positioning - now only need to avoid hamburger menu
+      const zoomWidget = document.querySelector('.esri-zoom');
+      const homeWidget = document.querySelector('.esri-home');
+      const trackWidget = document.querySelector('.esri-track');
+      
+      console.log("Found widgets:", {
+        zoom: zoomWidget ? "YES" : "NO",
+        home: homeWidget ? "YES" : "NO", 
+        track: trackWidget ? "YES" : "NO"
+      });
+      
+      if (zoomWidget) {
+        zoomWidget.style.top = '140px';
+        zoomWidget.style.backgroundColor = 'red'; // Temporary visual test
+        console.log("Moved zoom widget to 140px");
+      }
+      if (homeWidget) {
+        homeWidget.style.top = '220px';
+        homeWidget.style.backgroundColor = 'blue'; // Temporary visual test
+        console.log("Moved home widget to 220px");
+      }
+      if (trackWidget) {
+        trackWidget.style.top = '260px';
+        trackWidget.style.backgroundColor = 'green'; // Temporary visual test
+        console.log("Moved track widget to 260px");
+      }
+    }, 2000); // Wait 2 seconds
   });
 
   // Add Nature Sites Layer with professional tree SVG (hidden by default)
