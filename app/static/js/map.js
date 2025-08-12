@@ -185,9 +185,18 @@ view.padding = {
     const homeWidget = document.querySelector('.esri-home');
     const trackWidget = document.querySelector('.esri-track');
     
-    if (zoomWidget) zoomWidget.style.top = '120px';   // Much more space below hamburger menu
-    if (homeWidget) homeWidget.style.top = '200px';   // Below zoom buttons
-    if (trackWidget) trackWidget.style.top = '240px'; // Below home button
+    if (zoomWidget) {
+      zoomWidget.style.top = '150px !important';   // Force much lower positioning
+      zoomWidget.style.position = 'absolute !important';
+    }
+    if (homeWidget) {
+      homeWidget.style.top = '230px !important';   // Force much lower positioning
+      homeWidget.style.position = 'absolute !important';
+    }
+    if (trackWidget) {
+      trackWidget.style.top = '270px !important';  // Force much lower positioning
+      trackWidget.style.position = 'absolute !important';
+    }
   });
 
   // Add Nature Sites Layer with professional tree SVG (hidden by default)
