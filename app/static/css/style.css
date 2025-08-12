@@ -616,27 +616,3 @@ body.map-active {
     left: calc(10px + var(--safe-area-inset-left));
   }
 }
-
-/* Force ArcGIS UI widgets to position lower */
-.esri-zoom {
-  top: 150px !important;
-  position: absolute !important;
-}
-
-.esri-home {
-  top: 230px !important;
-  position: absolute !important;
-}
-
-.esri-track {
-  top: 270px !important;
-  position: absolute !important;
-}
-
-/* Make sure widgets stay on left side */
-.esri-zoom,
-.esri-home, 
-.esri-track {
-  left: 15px !important;
-  z-index: 50 !important;
-}
